@@ -15,6 +15,7 @@ export function defineStore<State>(initialState: State): Store<State> {
     const listeners = new Set<VoidFunction>();
 
     const getState = () => state;
+
     const setState = (update: UpdateFn<State>) => {
         state = update(state);
 
