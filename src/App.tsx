@@ -1,11 +1,10 @@
-import {createRoot} from "react-dom/client";
-import {defineStore, useStore} from "..";
+import {defineStore, useStore} from "./store";
 
 const store = defineStore({
     counter: 0
 });
 
-const App = () => {
+export const App = () => {
     const counter = useStore(store, (s) => s.counter);
     const inc = () => {
         store.setState((s) => ({
@@ -22,7 +21,3 @@ const App = () => {
         </div>
     );
 };
-
-const container = document.getElementById("app");
-const root = createRoot(container);
-root.render(<App />);
