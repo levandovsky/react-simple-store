@@ -1,0 +1,23 @@
+.section {
+    padding: 1rem;
+}
+
+.mb {
+    margin-bottom: 0.5rem;
+}
+
+.borderRed {
+    border: 1px solid red;
+}
+
+.borderBlue {
+    border: 1px solid blue;
+}
+
+.borderOrange {
+    border: 1px solid orange;
+}
+
+.borderPink {
+    border: 1px solid pink;
+}
