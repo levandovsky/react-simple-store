@@ -1,10 +1,11 @@
+import {ChangeEvent} from "react";
 import {defineStore, useStore} from "./store";
 import styles from "./App.module.css";
 
 const initialState = {
     counter: 0,
     message: ""
-}
+};
 
 const store = defineStore(initialState);
 
@@ -46,11 +47,9 @@ export const Counter = () => {
 
 export const Message = () => {
     const message = useStore(store, (s) => s.message);
-    const update = (e) => {
-        store.setState((s) => ({
-            ...s,
-            message: e.target.value
-        }));
+
+    const update = (e: ChangeEvent<HTMLInputElement>) => {
+        store.setState({message: e.target.value});
     };
 
     return (
@@ -64,12 +63,12 @@ export const Message = () => {
     );
 };
 
-const ResetState = () => <section className={`${styles.section} ${styles.borderPink}`}>
-    <div>
-        Reset state component:
-    </div>
-    <button onClick={resetStore}>Reset</button>
-</section>
+const ResetState = () => (
+    <section className={`${styles.section} ${styles.borderPink}`}>
+        <div>Reset state component:</div>
+        <button onClick={resetStore}>Reset</button>
+    </section>
+);
 
 export const App = () => {
     return (
