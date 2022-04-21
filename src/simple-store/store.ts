@@ -21,13 +21,13 @@ export function defineStore<State>(initialState: State): Store<State> {
 
     function setState(update: UpdateFn<State>): void;
     function setState(update: Partial<State>): void;
-    function setState(update: UpdateFn<State> | Partial<State>){
+    function setState(update: UpdateFn<State> | Partial<State>) {
         state = typeof update === "function" ? update(state) : {...state, ...update};
 
         listeners.forEach((listener) => {
             listener();
         });
-    };
+    }
 
     const subscribe = (listener: VoidFunction) => {
         listeners.add(listener);
@@ -45,7 +45,10 @@ export function defineStore<State>(initialState: State): Store<State> {
 }
 
 export function useStore<State>(store: Store<State>): State;
-export function useStore<State, Selector extends SelectorFn<State>>(store: Store<State>, selector: Selector): ReturnType<Selector>;
+export function useStore<State, Selector extends SelectorFn<State>>(
+    store: Store<State>,
+    selector: Selector
+): ReturnType<Selector>;
 export function useStore<State>(store: Store<State>, selector?: SelectorFn<State>) {
     const s = (slice: State) => {
         if (selector) return selector(slice);
@@ -65,4 +68,3 @@ export function useStore<State>(store: Store<State>, selector?: SelectorFn<State
 
     return state;
 }
-

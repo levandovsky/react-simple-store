@@ -1,20 +1,11 @@
-import {ChangeEvent} from "react";
-import {defineStore, useStore} from "./store";
 import styles from "./App.module.css";
 
-const initialState = {
-    counter: 0,
-    message: ""
-};
+import {ChangeEvent} from "react";
+import {useStore} from "./simple-store/store";
+import {resetStore, StateStore} from "./state";
 
-const store = defineStore(initialState);
-
-const resetStore = () => {
-    store.setState(initialState);
-};
-
-export const WholeState = () => {
-    const state = useStore(store);
+const WholeState = () => {
+    const state = useStore(StateStore);
 
     return (
         <section className={`${styles.section} ${styles.mb} ${styles.borderRed}`}>
@@ -25,13 +16,12 @@ export const WholeState = () => {
     );
 };
 
-export const Counter = () => {
-    const counter = useStore(store, (s) => s.counter);
+const Counter = () => {
+    const counter = useStore(StateStore, (s) => s.counter);
     const inc = () => {
-        store.setState((s) => ({
-            ...s,
-            counter: s.counter + 1
-        }));
+        StateStore.setState({
+            counter: counter + 1
+        });
     };
 
     return (
@@ -45,11 +35,11 @@ export const Counter = () => {
     );
 };
 
-export const Message = () => {
-    const message = useStore(store, (s) => s.message);
+const Message = () => {
+    const message = useStore(StateStore, (s) => s.message);
 
     const update = (e: ChangeEvent<HTMLInputElement>) => {
-        store.setState({message: e.target.value});
+        StateStore.setState({message: e.target.value});
     };
 
     return (
@@ -70,13 +60,11 @@ const ResetState = () => (
     </section>
 );
 
-export const App = () => {
-    return (
-        <main>
-            <Counter />
-            <Message />
-            <WholeState />
-            <ResetState />
-        </main>
-    );
-};
+export const App = () => (
+    <main>
+        <Counter />
+        <Message />
+        <WholeState />
+        <ResetState />
+    </main>
+);
