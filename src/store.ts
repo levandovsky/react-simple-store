@@ -6,7 +6,10 @@ export type SelectorFn<State> = (state: State) => unknown;
 
 export interface Store<State> {
     getState(): State;
-    setState: SetterFn<State>;
+    setState: {
+        (update: UpdateFn<State>): void;
+        (newState: Partial<State>): void;
+    };
     subscribe(listener: VoidFunction): void;
 }
 
@@ -16,8 +19,10 @@ export function defineStore<State>(initialState: State): Store<State> {
 
     const getState = () => state;
 
-    const setState = (update: UpdateFn<State>) => {
-        state = update(state);
+    function setState(update: UpdateFn<State>): void;
+    function setState(update: Partial<State>): void;
+    function setState(update: UpdateFn<State> | Partial<State>){
+        state = typeof update === "function" ? update(state) : {...state, ...update};
 
         listeners.forEach((listener) => {
             listener();

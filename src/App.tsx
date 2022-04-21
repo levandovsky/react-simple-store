@@ -1,14 +1,31 @@
 import {defineStore, useStore} from "./store";
 
-const store = defineStore({
+interface State {
+    counter: number;
+    message: string;
+}
+
+const initialState: State = {
     counter: 0,
     message: ""
-});
+}
+
+const store = defineStore<State>(initialState);
+
+const resetStore = () => {
+    store.setState(initialState);
+};
 
 export const WholeState = () => {
     const state = useStore(store);
 
-    return <div>{JSON.stringify(state)}</div>;
+    return (
+        <div style={{padding: "1rem", border: "1px solid blue"}}>
+            <div>Whole state component:</div>
+
+            <div>{JSON.stringify(state)}</div>
+        </div>
+    );
 };
 
 export const Counter = () => {
@@ -21,7 +38,9 @@ export const Counter = () => {
     };
 
     return (
-        <div>
+        <div style={{padding: "1rem", border: "1px solid red"}}>
+            <div>Counter component</div>
+
             <div>{counter}</div>
 
             <button onClick={inc}>Inc</button>
@@ -39,8 +58,12 @@ export const Message = () => {
     };
 
     return (
-        <div>
-            <input onChange={update} value={message} />
+        <div style={{padding: "1rem", border: "1px solid purple"}}>
+            <div>Message component:</div>
+
+            <div>
+                <input onChange={update} value={message} />
+            </div>
         </div>
     );
 };
@@ -51,6 +74,10 @@ export const App = () => {
             <Counter />
             <Message />
             <WholeState />
+
+            <br />
+
+            <button onClick={resetStore}>Reset</button>
         </div>
     );
 };
